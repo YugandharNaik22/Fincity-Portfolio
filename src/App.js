@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import React,{useState,useEffect} from 'react'
 import './App.css';
 
+import Header from '../src/components/Header/Header';
+import About from '../src/components/About/About';
+import AddProject from '../src/components/AddProject/AddProject';
+import Project from '../src/components/Project/Project'
+import Contact from '../src/components/Contact/Contact';
+
 function App() {
+  const initialProjects = JSON.parse(localStorage.getItem('projects')) || [];
+  const [projects, setProjects] = useState(initialProjects);
+
+  useEffect(() => {
+    
+    
+    localStorage.setItem('projects', JSON.stringify(projects));
+  }, [projects]);
+
+  const addProject = (newProject) => {
+    setProjects([...projects, newProject]);
+  };
+ 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <About />
+      <AddProject onAddProject={addProject} projects={projects} />
+      <Project projects={projects} />
+      <Contact />
+      <img src="https://res.cloudinary.com/drdjty87p/image/upload/v1704431772/Vector_adwan0.png" alt="" className='img'/>
     </div>
   );
 }
